@@ -4,5 +4,5 @@ import com.example.model.PostalCode
 
 interface PostalCodeService {
 
-    fun getPostalCode(postalCode: String): PostalCode
+    fun getPostalCode(postalCode: String): PostalCode?
 }

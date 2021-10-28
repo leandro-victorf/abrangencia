@@ -1,3 +1,10 @@
 micronaut:
   application:
     name: abrangencia
+
+mongodb:
+  uri: mongodb://abrangencia:abrangencia@localhost:27017/abrangencia
+
+  options:
+    maxConnectionIdleTime: 10000
+    readConcern: majority

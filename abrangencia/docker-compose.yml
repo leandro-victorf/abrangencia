@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: abrangencia
+      MONGO_INITDB_ROOT_USERNAME: abrangencia
+      MONGO_INITDB_ROOT_PASSWORD: abrangencia
+
+    volumes:
+      - /home/leandroferreira/mongodb/database:/data/db
+    ports:
+      - 27017:27017
