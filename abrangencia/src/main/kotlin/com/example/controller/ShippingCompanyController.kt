@@ -3,9 +3,10 @@ package com.example.controller
 import com.example.model.ShippingCompany
 import com.example.service.ShippingCompanyService
 import io.micronaut.http.annotation.*
+import jakarta.inject.Inject
 
 @Controller("/shippingcompany")
-class ShippingCompanyController(private val shippingCompanyService: ShippingCompanyService) {
+class ShippingCompanyController(@Inject private val shippingCompanyService: ShippingCompanyService) {
 
     @Get("/{id}")
     fun getById(id: String): ShippingCompany? {

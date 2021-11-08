@@ -1,10 +1,11 @@
 package com.example.model
 
 import com.example.annotation.NoArg
+import org.bson.types.ObjectId
 
 @NoArg
 data class ShippingCompany(
-    var id: String? = null,
+    var id: ObjectId? = null,
     var name: String,
     var slo: Int,
     var ranges: List<Range>,
