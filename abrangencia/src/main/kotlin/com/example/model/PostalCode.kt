@@ -1,16 +1,11 @@
 package com.example.model
 
-import io.micronaut.core.annotation.Introspected
-import org.bson.codecs.pojo.annotations.BsonProperty
+import com.example.annotation.NoArg
 
-@Introspected
+@NoArg
 data class PostalCode(
-    @field:BsonProperty("postalCode")
-    val postalCode: String,
-    @field:BsonProperty("city")
-    val city: String,
-    @field:BsonProperty("state")
-    val state: String,
-    @field:BsonProperty("codeType")
-    val codeType: String
+    var postalCode: String,
+    var city: String,
+    var state: String,
+    var codeType: String
 )

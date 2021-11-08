@@ -1,8 +1,16 @@
 package com.example.model
 
-data class ShippingCompany (
-    val id: String,
-    val name: String,
-    val slo: Int,
-    val range: Int
-        )
+import com.example.annotation.NoArg
+
+@NoArg
+data class ShippingCompany(
+    var id: String? = null,
+    var name: String,
+    var slo: Int,
+    var ranges: List<Range>,
+)
+
+data class Range(
+    var start: String,
+    var end: String
+)

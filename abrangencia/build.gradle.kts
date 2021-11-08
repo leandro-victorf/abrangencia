@@ -62,3 +62,7 @@ tasks {
         }
     }
 }
+
+noArg {
+    annotation("com.example.annotation.NoArg")
+}

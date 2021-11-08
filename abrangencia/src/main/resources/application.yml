@@ -8,3 +8,8 @@ mongodb:
   options:
     maxConnectionIdleTime: 10000
     readConcern: majority
+
+db:
+  name: 'abrangencia'
+  collectionPostalCode: 'postalCode'
+  collectionShippingCompany: 'shippingCompany'
