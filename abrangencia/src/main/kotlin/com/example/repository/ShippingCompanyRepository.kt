@@ -14,5 +14,5 @@ interface ShippingCompanyRepository {
 
     fun updateShippingCompany(company: ShippingCompany): UpdateResult
 
-    fun deleteShippingCompany(company: ShippingCompany): DeleteResult
+    fun deleteShippingCompany(id: String): DeleteResult
 }

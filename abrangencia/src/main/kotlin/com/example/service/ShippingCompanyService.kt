@@ -14,5 +14,5 @@ interface ShippingCompanyService {
 
     fun updateById(company: ShippingCompany)
     
-    fun deleteCompanyById(company: ShippingCompany)
+    fun deleteCompanyById(id: String)
 }

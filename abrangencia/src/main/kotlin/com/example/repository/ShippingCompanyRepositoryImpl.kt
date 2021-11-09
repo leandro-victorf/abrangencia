@@ -9,16 +9,18 @@ import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult
 import jakarta.inject.Singleton
+import org.bson.Document
+import org.bson.types.ObjectId
 
 @Singleton
 class ShippingCompanyRepositoryImpl(private val mongoClient: MongoClient, private val conf: MongoDbConfiguration) :
     ShippingCompanyRepository {
-    override fun getByShippingCompany(shippingCompany: String): ShippingCompany? {
-        return getCollection().find(Filters.eq("shippingCompany", shippingCompany)).first()
+    override fun getByShippingCompany(id: String): ShippingCompany? {
+        return getCollection().find(Filters.eq("_id",ObjectId(id))).first()
     }
 
     override fun getShippingCompany(shippingCompany: String): List<ShippingCompany> {
-        return getCollection().find(Filters.eq("shippingCompany", shippingCompany)).toList()
+        return getCollection().find().toList()
     }
 
     override fun addShippingCompany(company: ShippingCompany): InsertOneResult {
@@ -26,11 +28,14 @@ class ShippingCompanyRepositoryImpl(private val mongoClient: MongoClient, privat
     }
 
     override fun updateShippingCompany(company: ShippingCompany): UpdateResult {
-       return getCollection().updateOne(Filters.eq("id", company.id))
+       return getCollection().updateOne(
+           Filters.eq("id", company.id),
+           Document("\$set",company)
+       )
     }
 
-    override fun deleteShippingCompany(company: ShippingCompany): DeleteResult {
-        return getCollection().deleteOne(Filters.eq("id", company.id))
+    override fun deleteShippingCompany(id: String): DeleteResult {
+        return getCollection().deleteOne(Filters.eq("_id",ObjectId(id) ))
     }
 
 
@@ -42,4 +47,4 @@ class ShippingCompanyRepositoryImpl(private val mongoClient: MongoClient, privat
 
 
 
-}
+

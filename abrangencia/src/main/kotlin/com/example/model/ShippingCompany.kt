@@ -11,6 +11,7 @@ data class ShippingCompany(
     var ranges: List<Range>,
 )
 
+@NoArg
 data class Range(
     var start: String,
     var end: String

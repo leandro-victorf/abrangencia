@@ -35,27 +35,22 @@ class DefaultShippingCompanyService(@Inject private val shippingCompanyRepositor
         shippingCompanyRepository.updateShippingCompany(company)
     }
 
-    override fun deleteCompanyById(company: ShippingCompany){
-        shippingCompanyRepository.deleteShippingCompany(company)
+    override fun deleteCompanyById(id: String){
+        shippingCompanyRepository.deleteShippingCompany(id)
     }
 
     fun otmizePostalCode(company: ShippingCompany): String {
-       var satrtRange = company.ranges[0].start.toInt()
-       var endRange = company.ranges[0].end.toInt()
 
-        if(company.ranges[1].start.toInt() <= satrtRange){
-            if (company.ranges[1].end.toInt() <= endRange && company.ranges[1].end.toInt() > satrtRange){
-                satrtRange = company.ranges[1].start.toInt()
-            }else {
-                satrtRange = company.ranges[1].start.toInt()
-                endRange = company.ranges[1].end.toInt()
-            }
-        } else if (company.ranges[1].start.toInt() > satrtRange && company.ranges[1].start.toInt() <= endRange){
-            if (company.ranges[1].end.toInt() > endRange){
-                endRange = company.ranges[1].end.toInt()
+        val orderRangeLists = company.ranges.sortedBy { it.start }
+//        val orderRangeLists = sortedSetOf(mutableListOf(company.ranges)).toList()
+//        passar para int para fazer a comparação
+
+        for (i in 1 until orderRangeLists.size){
+//            como chegar no start
+            if (orderRangeLists[i-1].start > orderRangeLists[i].start){
+
             }
         }
-        return satrtRange.toString(); endRange.toString()
     }
 }
 

@@ -33,8 +33,8 @@ class ShippingCompanyController(@Inject private val shippingCompanyService: Ship
     }
 
     @Delete("/{id}")
-    fun deleteCompanyById(company: ShippingCompany) {
-        shippingCompanyService.deleteCompanyById(company)
+    fun deleteCompanyById(id: String) {
+        shippingCompanyService.deleteCompanyById(id)
     }
 
 }
