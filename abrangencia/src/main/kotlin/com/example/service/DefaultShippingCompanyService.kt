@@ -24,11 +24,16 @@ class DefaultShippingCompanyService(@Inject private val shippingCompanyRepositor
     }
 
     override fun addCompany(company: ShippingCompany) {
+        if (company.ranges != null){
+            company.ranges = optmizePostalCode(company)
+        }
         shippingCompanyRepository.addShippingCompany(company)
     }
 
     override fun updateById(company: ShippingCompany) {
-        company.ranges = optmizePostalCode(company)
+        if (company.ranges != null){
+            company.ranges = optmizePostalCode(company)
+        }
         shippingCompanyRepository.updateShippingCompany(company)
     }
 
