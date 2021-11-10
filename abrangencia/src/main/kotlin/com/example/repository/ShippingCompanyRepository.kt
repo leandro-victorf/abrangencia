@@ -1,7 +1,6 @@
 package com.example.repository
 
 import com.example.model.ShippingCompany
-import com.mongodb.client.FindIterable
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult

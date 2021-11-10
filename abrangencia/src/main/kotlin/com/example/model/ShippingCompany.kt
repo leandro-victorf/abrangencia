@@ -14,5 +14,5 @@ data class ShippingCompany(
 @NoArg
 data class Range(
     var start: String,
-    var end: String
+    var end: String,
 )

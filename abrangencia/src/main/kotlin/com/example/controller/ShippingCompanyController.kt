@@ -2,7 +2,6 @@ package com.example.controller
 
 import com.example.model.ShippingCompany
 import com.example.service.ShippingCompanyService
-import com.mongodb.client.FindIterable
 import io.micronaut.http.annotation.*
 import jakarta.inject.Inject
 
@@ -37,5 +36,4 @@ class ShippingCompanyController(@Inject private val shippingCompanyService: Ship
     fun deleteCompanyById(id: String) {
         shippingCompanyService.deleteCompanyById(id)
     }
-
 }

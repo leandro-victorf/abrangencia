@@ -7,5 +7,5 @@ data class PostalCode(
     var postalCode: String,
     var city: String,
     var state: String,
-    var codeType: String
+    var codeType: String,
 )

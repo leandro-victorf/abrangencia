@@ -9,7 +9,6 @@ import jakarta.inject.Singleton
 class DefaultPostalCodeService(@Inject private val postalCodeRepository: PostalCodeRepository) : PostalCodeService {
 
     override fun getPostalCode(postalCode: String): PostalCode? {
-
         return postalCodeRepository.getByPostalCode(postalCode)
     }
 }
