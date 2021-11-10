@@ -1,6 +1,7 @@
 package com.example.service
 
 import com.example.model.ShippingCompany
+import com.mongodb.client.FindIterable
 
 interface ShippingCompanyService {
 
