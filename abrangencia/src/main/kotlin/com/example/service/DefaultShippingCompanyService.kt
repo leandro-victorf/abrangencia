@@ -5,6 +5,7 @@ import com.example.model.ShippingCompany
 import com.example.repository.ShippingCompanyRepository
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import kotlin.math.max
 
 
 @Singleton
@@ -24,16 +25,12 @@ class DefaultShippingCompanyService(@Inject private val shippingCompanyRepositor
     }
 
     override fun addCompany(company: ShippingCompany) {
-        if (company.ranges != null){
-            company.ranges = optmizePostalCode(company)
-        }
+        company.ranges = optmizePostalCode(company)
         shippingCompanyRepository.addShippingCompany(company)
     }
 
     override fun updateById(company: ShippingCompany) {
-        if (company.ranges != null){
-            company.ranges = optmizePostalCode(company)
-        }
+        company.ranges = optmizePostalCode(company)
         shippingCompanyRepository.updateShippingCompany(company)
     }
 
@@ -42,17 +39,18 @@ class DefaultShippingCompanyService(@Inject private val shippingCompanyRepositor
     }
 
     private fun optmizePostalCode(company: ShippingCompany): List<Range> {
+        if (company.ranges.isEmpty()){
+            return  company.ranges
+        }
 
         val orderRangeLists = company.ranges.sortedBy { it.start }
-        val optmizeRanges = mutableListOf<Range>(orderRangeLists[0])
+        val optmizeRanges = mutableListOf(orderRangeLists[0])
 
         for (i in 1 until orderRangeLists.size) {
-            if (orderRangeLists[i].end >= optmizeRanges.last().start && orderRangeLists[i].end <= optmizeRanges.last().end) {
-                continue
-            } else if (orderRangeLists[i].end > optmizeRanges.last().end) {
-                orderRangeLists[i].end.also { optmizeRanges.last().end = it }
-            } else {
+            if (orderRangeLists[i].start > optmizeRanges.last().end) {
                 optmizeRanges.add(orderRangeLists[i])
+            } else {
+                optmizeRanges.last().end = max(orderRangeLists[i].end.toInt(), optmizeRanges.last().end.toInt()).toString()
             }
         }
         return optmizeRanges

@@ -6,11 +6,11 @@ import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult
 
 interface ShippingCompanyRepository {
-    fun getByShippingCompany(shippingCompany: String): ShippingCompany?
+    fun getByShippingCompany(id: String): ShippingCompany?
 
     fun getShippingCompany(shippingCompany: String): List<ShippingCompany>
 
-    fun getByPostalCodeShippingCompany(shippingCompany: String): List<ShippingCompany>
+    fun getByPostalCodeShippingCompany(postalCode: String): List<ShippingCompany>
 
     fun addShippingCompany(company: ShippingCompany): InsertOneResult
 
