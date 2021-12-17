@@ -37,6 +37,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
