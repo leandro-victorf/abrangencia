@@ -11,6 +11,7 @@ class ShippingCompanyController(@Inject private val shippingCompanyService: Ship
     @Get("/{id}")
     fun getById(id: String): ShippingCompany? {
         return shippingCompanyService.getById(id)
+
     }
 
     @Get
