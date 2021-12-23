@@ -8,14 +8,15 @@ import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.`when`
 import org.mockito.kotlin.*
 
 @MicronautTest
@@ -59,7 +60,7 @@ class ShippingCompanyControllerTest {
 
         // when
         val response =
-            client.toBlocking().exchange<ShippingCompany>("shippingcompany/")
+            client.toBlocking().exchange<String, String>(HttpRequest.GET("shippingcompany/"))
 
         //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
@@ -74,7 +75,7 @@ class ShippingCompanyControllerTest {
 
         //when
         val response =
-            client.toBlocking().exchange<ShippingCompany>("shippingcompany/6189b2d1e3474e73a44c6d8a")
+            client.toBlocking().exchange<String, String>(HttpRequest.GET("shippingcompany/6189b2d1e3474e73a44c6d8a"))
             // exchange possibilita vários retornos, como status  body, já o retrive somente o status
 
         //then
@@ -87,7 +88,20 @@ class ShippingCompanyControllerTest {
         verify(service, times(1)).getById("6189b2d1e3474e73a44c6d8a")
     }
 
+    @Test
+    fun `test to getById not fund`() {
+        //given
+        whenever(service.getById(anyString())) doReturn null
 
+        //when
+        // usa-se o assertThrows para tratar a excessão, no caso o not found
+        val response = assertThrows<HttpClientResponseException>{
+            client.toBlocking().exchange<String, String>(HttpRequest.GET("shippingcompany/6189b2d1e3474e73a44c6d8a"))
+        }
+
+        //then
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.status)
+    }
 
     @Test
     fun `test getByPostalCode ShippingCompany` (){
@@ -95,7 +109,7 @@ class ShippingCompanyControllerTest {
         whenever(service.getByPostalCode(anyString())) doReturn listOf(existentShippingCompany)
 
         //when
-        val response = client.toBlocking().exchange<String>("/shippingcompany/?postal-code=09280650")
+        val response = client.toBlocking().exchange<String, String>(HttpRequest.GET("/shippingcompany/?postal-code=09280650"))
 
         //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
@@ -121,8 +135,6 @@ class ShippingCompanyControllerTest {
                 ]
             }
             """.trimIndent()
-
-
         ))
 
         //Then
