@@ -129,7 +129,7 @@ class ShippingCompanyControllerTest {
     }
 
     @Test
-    fun `test to update of shippingCompany`(){
+    fun `test to updateById of shippingCompany`(){
         //given
         doNothing().`when`(service).updateById(existentShippingCompany)
 
@@ -153,5 +153,18 @@ class ShippingCompanyControllerTest {
         //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
         verify(service, times(1)).updateById(newShippingCompany)
+    }
+
+    @Test
+    fun `test to deleteById shippingCompany`(){
+        //given
+        doNothing().`when`(service).deleteCompanyById(anyString())
+
+        //when
+        val response = client.toBlocking().exchange<String, String>(HttpRequest.DELETE("shippingcompany/6189b2d1e3474e73a44c6d8a"))
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.status)
+        verify(service, times(1)).deleteCompanyById("6189b2d1e3474e73a44c6d8a")
     }
 }
