@@ -63,6 +63,7 @@ class ShippingCompanyControllerTest {
 
         //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
+        verify(service, times(1)).getListCompanies()
     }
 
     @Test
@@ -98,6 +99,7 @@ class ShippingCompanyControllerTest {
 
         //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
+        verify(service, times(1)).getByPostalCode("09280650")
     }
 
     @Test
