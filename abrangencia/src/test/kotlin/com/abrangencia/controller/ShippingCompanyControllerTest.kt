@@ -40,6 +40,12 @@ class ShippingCompanyControllerTest {
         slo = 1,
         ranges = listOf(Range("09280650", "09300500"))
         )
+    // usada para fazer o veriify in post and put
+    private val newShippingCompany = ShippingCompany(
+        name = "Shipping Company Test",
+        slo = 2,
+        ranges = listOf(Range("09160000", "09880000"))
+    )
 //      pq deu errado(mas depois de corrigir o restamte)
 //    private fun httpRequestShippingCompany() = Stream.of(
 //       Arguments.of(HttpRequest.POST("http://localhost:8080/shippingcompany", "{}")),
@@ -100,13 +106,6 @@ class ShippingCompanyControllerTest {
         // usa-se o doNothing pq ao adicionar uma nova shipping company não ha nenhum return
         doNothing().`when`(service).addCompany(any())
 
-        // usada para fazer o veriify
-        val newShippingCompany = ShippingCompany(
-            name = "Shipping Company Test",
-            slo = 2,
-            ranges = listOf(Range("09160000", "09880000"))
-        )
-
         //when
         val response = client.toBlocking().exchange<String, String>(HttpRequest.POST(
             "/shippingcompany",
@@ -129,4 +128,30 @@ class ShippingCompanyControllerTest {
         verify(service, times(1)).addCompany(newShippingCompany)
     }
 
+    @Test
+    fun `test to update of shippingCompany`(){
+        //given
+        doNothing().`when`(service).updateById(existentShippingCompany)
+
+        //when
+        val response = client.toBlocking().exchange<String, String>(
+            HttpRequest.PUT(
+                "shippingcompany/6189b2d1e3474e73a44c6d8a",
+                """{"name": "Shipping Company Test",
+                "slo": 2,
+                "ranges": [
+                    {
+                        "start": "09160000",
+                        "end": "09880000"
+                    }
+                ]
+            }
+            """.trimIndent()
+            )
+        )
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.status)
+        verify(service, times(1)).updateById(newShippingCompany)
+    }
 }
