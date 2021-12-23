@@ -15,6 +15,7 @@ import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.*
 
 @MicronautTest
@@ -32,14 +33,13 @@ class ShippingCompanyControllerTest {
         return mock()
     }
 
-    // body pré existente, simulando
+    // body pré existente, simulando o que será devolvido pelo mock do service
     private val existentShippingCompany = ShippingCompany(
         id = ObjectId("6189b2d1e3474e73a44c6d8a"),
         name = "Shipping Company Test",
         slo = 1,
         ranges = listOf(Range("09280650", "09300500"))
         )
-
 //      pq deu errado(mas depois de corrigir o restamte)
 //    private fun httpRequestShippingCompany() = Stream.of(
 //       Arguments.of(HttpRequest.POST("http://localhost:8080/shippingcompany", "{}")),
@@ -55,7 +55,7 @@ class ShippingCompanyControllerTest {
         val response =
             client.toBlocking().exchange<ShippingCompany>("shippingcompany/")
 
-        //than
+        //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
     }
 
@@ -70,7 +70,7 @@ class ShippingCompanyControllerTest {
             client.toBlocking().exchange<ShippingCompany>("shippingcompany/6189b2d1e3474e73a44c6d8a")
             // exchange possibilita vários retornos, como status  body, já o retrive somente o status
 
-        //than
+        //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
 
         // neste caso confere o corpo recebido com o esperado
@@ -90,23 +90,43 @@ class ShippingCompanyControllerTest {
         //when
         val response = client.toBlocking().exchange<String>("/shippingcompany/?postal-code=09280650")
 
-        //than
+        //then
         Assertions.assertEquals(HttpStatus.OK, response.status)
     }
 
     @Test
     fun `test to create new shipppingCompany`() {
+        //given
+        // usa-se o doNothing pq ao adicionar uma nova shipping company não ha nenhum return
+        doNothing().`when`(service).addCompany(any())
+
+        // usada para fazer o veriify
+        val newShippingCompany = ShippingCompany(
+            name = "Shipping Company Test",
+            slo = 2,
+            ranges = listOf(Range("09160000", "09880000"))
+        )
+
+        //when
         val response = client.toBlocking().exchange<String, String>(HttpRequest.POST(
-            "http://localhost:8080/shippingcompany",
-// contruir um JSON do body a ser verificado
-            """
-                
+            "/shippingcompany",
+            """{"name": "Shipping Company Test",
+                "slo": 2,
+                "ranges": [
+                    {
+                        "start": "09160000",
+                        "end": "09880000"
+                    }
+                ]
+            }
             """.trimIndent()
 
 
         ))
 
+        //Then
         Assertions.assertEquals(HttpStatus.OK, response.status)
+        verify(service, times(1)).addCompany(newShippingCompany)
     }
 
 }
