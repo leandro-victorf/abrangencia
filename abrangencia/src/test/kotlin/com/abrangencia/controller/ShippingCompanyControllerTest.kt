@@ -51,9 +51,11 @@ class ShippingCompanyControllerTest {
         //given
         whenever(service.getListCompanies()) doReturn listOf(existentShippingCompany)
 
+        // when
         val response =
             client.toBlocking().exchange<ShippingCompany>("shippingcompany/")
 
+        //than
         Assertions.assertEquals(HttpStatus.OK, response.status)
     }
 
@@ -62,10 +64,13 @@ class ShippingCompanyControllerTest {
         //given
         // dar um retorno esperado ao service mockado
         whenever(service.getById(anyString())) doReturn existentShippingCompany
+
+        //when
         val response =
             client.toBlocking().exchange<ShippingCompany>("shippingcompany/6189b2d1e3474e73a44c6d8a")
             // exchange possibilita vários retornos, como status  body, já o retrive somente o status
 
+        //than
         Assertions.assertEquals(HttpStatus.OK, response.status)
 
         // neste caso confere o corpo recebido com o esperado
@@ -75,12 +80,19 @@ class ShippingCompanyControllerTest {
         verify(service, times(1)).getById("6189b2d1e3474e73a44c6d8a")
     }
 
-//    @Test
-//    fun `test getByPostalCode ShippingCompany` (){
-//        val response = client.toBlocking().exchange<String>("http://localhost:8080/shippingcompany/postal-code=09280650")
-//
-//        Assertions.assertEquals(HttpStatus.OK, response.status)
-//    }
+
+
+    @Test
+    fun `test getByPostalCode ShippingCompany` (){
+        // given
+        whenever(service.getByPostalCode(anyString())) doReturn listOf(existentShippingCompany)
+
+        //when
+        val response = client.toBlocking().exchange<String>("/shippingcompany/?postal-code=09280650")
+
+        //than
+        Assertions.assertEquals(HttpStatus.OK, response.status)
+    }
 
     @Test
     fun `test to create new shipppingCompany`() {
