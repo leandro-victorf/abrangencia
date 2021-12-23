@@ -47,13 +47,24 @@ class ShippingCompanyControllerTest {
 //    )
 
     @Test
+    fun `test list of shippingCompany`(){
+        //given
+        whenever(service.getListCompanies()) doReturn listOf(existentShippingCompany)
+
+        val response =
+            client.toBlocking().exchange<ShippingCompany>("shippingcompany/")
+
+        Assertions.assertEquals(HttpStatus.OK, response.status)
+    }
+
+    @Test
     fun `test getById ShippingCompany`() {
         //given
         // dar um retorno esperado ao service mockado
         whenever(service.getById(anyString())) doReturn existentShippingCompany
         val response =
-           // exchange possibilita vários retornos, como status  body, já o retrive somente o status
             client.toBlocking().exchange<ShippingCompany>("shippingcompany/6189b2d1e3474e73a44c6d8a")
+            // exchange possibilita vários retornos, como status  body, já o retrive somente o status
 
         Assertions.assertEquals(HttpStatus.OK, response.status)
 
