@@ -36,11 +36,10 @@ class PostalCodeServiceTest {
     fun `test getPostalCode`() {
         //given
         val expectedResponse = existentPostalCode
+        whenever(repository.getByPostalCode("09280650")) doReturn existentPostalCode
 
         //when
-        whenever(repository.getByPostalCode("09280650")) doReturn existentPostalCode
         val response = service.getPostalCode("09280650")
-
 
         //then
         Assertions.assertEquals(expectedResponse, response)
