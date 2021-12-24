@@ -1,8 +1,6 @@
 package com.abrangencia.controller
 
 import com.example.model.PostalCode
-import com.example.model.Range
-import com.example.model.ShippingCompany
 import com.example.service.DefaultPostalCodeService
 import com.example.service.PostalCodeService
 import io.micronaut.http.HttpRequest
@@ -12,9 +10,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
-import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.kotlin.*
